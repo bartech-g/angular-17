@@ -1,11 +1,25 @@
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { RouterLink, RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet],
-  template: ` <h1>Welcome to {{ title }}!</h1> `,
+  imports: [RouterOutlet, RouterLink],
+  template: `
+  <nav>
+    <ul>
+      @for (navItem of productTitles; track $index) {
+        <li>
+          <a [routerLink]="['details', $index]">{{navItem}}</a>
+        </li>
+      }
+    </ul>
+  </nav>
+  <router-outlet />
+  <footer>
+    Footer
+  </footer>
+  `,
 })
 export class AppComponent {
   title = '08-routing-recap';
