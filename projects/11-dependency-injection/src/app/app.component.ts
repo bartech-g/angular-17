@@ -1,10 +1,25 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { UserService } from './user.service';
+import { User } from './data';
+import { UserInfoComponent } from './user-info/user-info.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  template: ` <h1>User Listing</h1> `,
+  imports: [UserInfoComponent],
+  template: ` <h1>User Listing</h1>
+              @for (user of userData; track $index) {
+                <app-user-info [user]="user"></app-user-info>
+              }
+
+            `,
 })
 export class AppComponent {
-  constructor() {}
+  // Inject user.service.ts
+  userService = inject(UserService)
+  userData: User[] = []
+  // Constructor
+  constructor() {   
+    this.userService.getUserData().then(data => {this.userData = data;});
+  }
 }
